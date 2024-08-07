@@ -2,6 +2,7 @@
 #include <deque>
 #include <iostream>
 #include <set>
+#include <cassert>
 
 // This implementation is modified Edmonds-Karp for computin max flow.
 // Edges of negative costs are allowed.
