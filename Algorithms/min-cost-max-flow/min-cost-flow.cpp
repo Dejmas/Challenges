@@ -78,7 +78,7 @@ long NetworkCostFlow::minCostFlow(int source, int target, long flowLimit) {
     }
 
     if (flow < flowLimit) return -1;
-
+    std::cout << "flow " << flow << " cost " << cost << "\n";
     return cost;
 }
 
@@ -146,7 +146,23 @@ void GREED_Greedy_island () {
     assert(flow == 3);
 }
 
+void testChat() {
+    NetworkCostFlow g(6);
+    g.addEdge(0, 1, 10, 2);
+    g.addEdge(0, 2, 5, 6);
+    g.addEdge(1, 2, 15, 1);
+    g.addEdge(1, 3, 10, 4);
+    g.addEdge(2, 4, 10, 2);
+    g.addEdge(3, 4, 10, 3);
+    g.addEdge(3, 5, 10, 1);
+    g.addEdge(4, 5, 10, 2);
+
+    auto cost = g.minCostFlow(0, 5, 15);
+    std::cout << cost << "\n";
+}
+
 int main () {
+    testChat();
     // testMaxFlow();
-    GREED_Greedy_island();
+    //GREED_Greedy_island();
 }

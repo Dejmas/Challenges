@@ -3,9 +3,9 @@
 #include <iostream>
 #include <set>
 
-class NetworkFlow {
+class EdmondsKarp {
     public: 
-        NetworkFlow(size_t noNodes);
+        EdmondsKarp(size_t noNodes);
         void addEdge(int a, int b, long cap);
         long maxFlow(int source, int target);
 
@@ -19,12 +19,12 @@ class NetworkFlow {
         std::set<std::pair<int, int>> m_existingEdges;
 };
 
-NetworkFlow::NetworkFlow(size_t noNodes) 
+EdmondsKarp::EdmondsKarp(size_t noNodes) 
 : m_adjacent(noNodes)
 , m_residues(noNodes, std::vector<long>(noNodes, 0)) {
 }
 
-void NetworkFlow::addEdge(int a, int b, long cap) {
+void EdmondsKarp::addEdge(int a, int b, long cap) {
     if (!m_existingEdges.contains({a,b})) {
         m_adjacent[a].push_back(b);
         m_adjacent[b].push_back(a);
@@ -35,7 +35,7 @@ void NetworkFlow::addEdge(int a, int b, long cap) {
     }
 }
 
-long NetworkFlow::maxFlow(int source, int target) {
+long EdmondsKarp::maxFlow(int source, int target) {
     long flow = 0;
     std::vector<int>parent(m_adjacent.size());
     long path_flow;
@@ -55,7 +55,7 @@ long NetworkFlow::maxFlow(int source, int target) {
     return flow;
 }
 
-long NetworkFlow::augmentingPath(int source, int target, std::vector<int> & parent) const{
+long EdmondsKarp::augmentingPath(int source, int target, std::vector<int> & parent) const{
     parent.assign(parent.size(), -1);
     parent[source] = -2;
     std::deque<std::pair<int, long>> q({{source, INF}});
@@ -79,7 +79,7 @@ long NetworkFlow::augmentingPath(int source, int target, std::vector<int> & pare
 
 
 void testMaxFlow () {
-    NetworkFlow network(6);
+    EdmondsKarp network(6);
     network.addEdge(0, 1, 7);
     network.addEdge(1, 2, 5);
     network.addEdge(2, 5, 8);
@@ -94,6 +94,26 @@ void testMaxFlow () {
     std::cout << "Max flow is " << flow << "\n";    
 }
 
+int testChat() {
+    EdmondsKarp g(6);
+    g.addEdge(0, 1, 16);
+    g.addEdge(0, 2, 13);
+    g.addEdge(1, 2, 10);
+    g.addEdge(1, 3, 12);
+    g.addEdge(2, 1, 4);
+    g.addEdge(2, 4, 14);
+    g.addEdge(3, 2, 9);
+    g.addEdge(3, 5, 20);
+    g.addEdge(4, 3, 7);
+    g.addEdge(4, 5, 4);
+
+    std::cout << "The maximum possible flow is " << g.maxFlow(0, 5) << std::endl;
+
+    return 0;
+}
+
+
 int main () {
     testMaxFlow();
+    testChat();
 }
